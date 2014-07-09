@@ -16,3 +16,16 @@ feature "Homepage" do
   end
 
 end
+
+feature "Registering" do
+  scenario "user can register and see confirmation" do
+    visit '/registration'
+
+    fill_in "username", :with => "Frankie"
+    fill_in "password", :with => "secretpassword"
+
+    click_button "Submit"
+
+    expect(page).to have_content("Thank you for registering")
+  end
+end
