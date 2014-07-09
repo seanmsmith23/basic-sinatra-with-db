@@ -25,9 +25,7 @@ class App < Sinatra::Application
   post "/" do
     username = params[:username]
     password = params[:password]
-    p "USERNAME: #{username} PASSWORD: #{password}"
     data_name = @database_connection.sql("SELECT * FROM users WHERE username = '#{username}'")
-    p "DATA SQL QUERY FOUND #{data_name}"
     data_name.each do |hash|
       if hash["username"] == username && hash["password"] == password
           session[:user_id] = hash["id"].to_i
@@ -35,7 +33,6 @@ class App < Sinatra::Application
         flash[:error] = "Username and Password not found"
       end
     end
-    p "SESSION_ID IS #{session[:user_id]}"
     redirect '/'
 
   end
@@ -47,10 +44,15 @@ class App < Sinatra::Application
   post "/registration"  do
     username = params[:username]
     password = params[:password]
-    print username
-    @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
-    flash[:notice] = "Thank you for registering"
-    redirect '/'
+
+    if username == "" || password == ""
+      username_and_password(username, password)
+      redirect '/registration'
+    else
+      @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
+      flash[:notice] = "Thank you for registering"
+      redirect '/'
+    end
   end
 
   get "/logout" do
