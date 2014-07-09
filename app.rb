@@ -18,7 +18,8 @@ class App < Sinatra::Application
   end
 
   post "/" do
-
+    username = params[:username]
+    erb :homepage2, locals: {:name => username}
   end
 
   get "/registration" do
