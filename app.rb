@@ -14,12 +14,30 @@ class App < Sinatra::Application
   end
 
   get "/" do
-    erb :homepage
+    if session[:user_id]
+      erb :homepage2, locals: {:name => finds_name(session[:user_id]), :id => session[:user_id] }
+    else
+      erb :homepage
+    end
+
   end
 
   post "/" do
     username = params[:username]
-    erb :homepage2, locals: {:name => username}
+    password = params[:password]
+    p "USERNAME: #{username} PASSWORD: #{password}"
+    data_name = @database_connection.sql("SELECT * FROM users WHERE username = '#{username}'")
+    p "DATA SQL QUERY FOUND #{data_name}"
+    data_name.each do |hash|
+      if hash["username"] == username && hash["password"] == password
+          session[:user_id] = hash["id"].to_i
+      else
+        flash[:error] = "Username and Password not found"
+      end
+    end
+    p "SESSION_ID IS #{session[:user_id]}"
+    redirect '/'
+
   end
 
   get "/registration" do

@@ -23,6 +23,14 @@ feature "Homepage" do
     expect(page).to have_content("Welcome Frankie")
   end
 
+  scenario "user should not see register button after logging in" do
+    register_user("Frankie")
+    sign_in_user("Frankie")
+
+    expect(page).to_not have_button("Register")
+    expect(page).to have_button("Logout")
+  end
+
 end
 
 feature "Registering" do
