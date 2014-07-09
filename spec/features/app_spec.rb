@@ -1,4 +1,5 @@
 require "spec_helper"
+require_relative "method"
 
 feature "Homepage" do
   scenario "unregistered user should see a register button" do
@@ -15,17 +16,20 @@ feature "Homepage" do
     expect(page).to have_content("Register Here!")
   end
 
+  scenario "user can sign in and have a greeting presented to them" do
+    register_user("Frankie")
+    sign_in_user("Frankie")
+
+    expect(page).to have_content("Welcome Frankie")
+  end
+
 end
 
 feature "Registering" do
   scenario "user can register and see confirmation" do
-    visit '/registration'
-
-    fill_in "username", :with => "Frankie"
-    fill_in "password", :with => "secretpassword"
-
-    click_button "Submit"
+    register_user("Frankie")
 
     expect(page).to have_content("Thank you for registering")
   end
 end
+

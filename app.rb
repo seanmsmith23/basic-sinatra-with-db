@@ -17,11 +17,19 @@ class App < Sinatra::Application
     erb :homepage
   end
 
+  post "/" do
+
+  end
+
   get "/registration" do
     erb :registration
   end
 
   post "/registration"  do
+    username = params[:username]
+    password = params[:password]
+    print username
+    @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
     flash[:notice] = "Thank you for registering"
     redirect '/'
   end
