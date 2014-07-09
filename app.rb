@@ -1,6 +1,7 @@
 require "sinatra"
 require "active_record"
 require "./lib/database_connection"
+require_relative "model"
 
 class App < Sinatra::Application
   def initialize
@@ -9,6 +10,6 @@ class App < Sinatra::Application
   end
 
   get "/" do
-    "Hello"
+    erb :homepage
   end
 end
