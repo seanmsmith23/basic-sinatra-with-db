@@ -31,6 +31,14 @@ feature "Homepage" do
     expect(page).to have_button("Logout")
   end
 
+  scenario "logout button ends session" do
+    register_user("Frankie")
+    sign_in_user("Frankie")
+    logout_user
+
+    expect(page).to have_button("Register")
+  end
+
 end
 
 feature "Registering" do

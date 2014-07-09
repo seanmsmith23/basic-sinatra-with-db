@@ -53,4 +53,9 @@ class App < Sinatra::Application
     redirect '/'
   end
 
+  get "/logout" do
+    session.delete(:user_id)
+    redirect '/'
+  end
+
 end

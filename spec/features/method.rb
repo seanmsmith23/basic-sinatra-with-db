@@ -17,3 +17,8 @@ def sign_in_user(name)
 
   click_button "Sign In"
 end
+
+def logout_user
+  visit '/logout'
+
+end
