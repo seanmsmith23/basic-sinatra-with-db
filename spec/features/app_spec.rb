@@ -32,7 +32,6 @@ feature "Homepage" do
   end
 
   scenario "logout button ends session" do
-    clean_table
     register_user("Frankie")
     sign_in_user("Frankie")
     logout_user
