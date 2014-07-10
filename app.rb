@@ -22,19 +22,28 @@ class App < Sinatra::Application
 
   end
 
+
+
+
   post "/" do
+
     username = params[:username]
     password = params[:password]
-    data_name = @database_connection.sql("SELECT * FROM users WHERE username = '#{username}'")
-    data_name.each do |hash|
-      if hash["username"] == username && hash["password"] == password
-          session[:user_id] = hash["id"].to_i
-      else
-        flash[:error] = "Username and Password not found"
-      end
-    end
-    redirect '/'
 
+    if username == "" || password == ""
+      username_and_password(username, password)
+      redirect '/'
+    else
+      data_name = @database_connection.sql("SELECT * FROM users WHERE username = '#{username}'")
+      data_name.each do |hash|
+        if hash["username"] == username && hash["password"] == password
+            session[:user_id] = hash["id"].to_i
+        else
+          flash[:error] = "Username and Password not found"
+        end
+      end
+      redirect '/'
+    end
   end
 
   get "/registration" do
@@ -49,9 +58,13 @@ class App < Sinatra::Application
       username_and_password(username, password)
       redirect '/registration'
     else
-      @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
-      flash[:notice] = "Thank you for registering"
-      redirect '/'
+      begin
+        @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
+        flash[:notice] = "Thank you for registering"
+      rescue
+        flash[:error] = "This user already exists"
+        redirect '/'
+      end
     end
   end
 

@@ -1,3 +1,4 @@
+
 def register_user(name)
   visit '/registration'
 
@@ -22,3 +23,7 @@ def logout_user
   visit '/logout'
 
 end
+
+# def clean_table
+#   @database_connection.sql("DELETE FROM users WHERE id > 0")
+# end
