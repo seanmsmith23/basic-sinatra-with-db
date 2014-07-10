@@ -28,7 +28,7 @@ feature "Homepage" do
     sign_in_user("Frankie")
 
     expect(page).to_not have_button("Register")
-    expect(page).to have_button("Logout")
+    expect(page).to have_content("Logout")
   end
 
   scenario "logout button ends session" do
@@ -48,6 +48,22 @@ feature "Homepage" do
     expect(page).to have_content("Frankie")
 
   end
+
+  scenario "can view fish others created by clicking on their name" do
+    register_user("Frankie")
+    register_user("Maude")
+    sign_in_user("Frankie")
+    create_fish("Mackerel")
+    logout_user
+
+    sign_in_user("Maude")
+
+    click_link "Frankie"
+
+    expect(page).to have_content("Mackerel")
+    
+  end
+
 
 
 end
@@ -121,4 +137,20 @@ feature "Error Messages" do
     expect(page).to have_content "This user already exists"
   end
 end
+
+feature "fishes" do
+  scenario "logged in users can create a fish w/ wiki and view all fish on homepage" do
+    register_user("Francis")
+    sign_in_user("Francis")
+
+    visit '/fish_factory'
+
+    fill_in "fishname", :with => "Mackerel"
+    fill_in "wiki", :with => "http://en.wikipedia.org/wiki/Mackerel"
+    click_button "Submit"
+
+    expect(page).to have_content("Mackerel")
+  end
+end
+
 

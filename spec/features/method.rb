@@ -23,3 +23,13 @@ def logout_user
   visit '/logout'
 end
 
+def create_fish(fishname)
+  visit '/fish_factory'
+
+  fill_in "fishname", :with => "#{fishname}"
+  fill_in "wiki", :with => "http://en.wikipedia.org/wiki/Mackerel"
+
+  click_button "Submit"
+
+end
+

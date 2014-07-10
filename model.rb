@@ -48,6 +48,38 @@ def user_registration(username, password)
 end
 
 def list_of_users
-   users =  @database_connection.sql("SELECT username FROM users")
-  users.map { |u| '<li>' + u["username"] + '</li>' }.join
+  users =  @database_connection.sql("SELECT username, id FROM users")
+  usernames =  users.map do |u|
+    if session[:user_id] != u["id"].to_i
+      "<a href='/user/#{u["username"]}'><li>" + u["username"] + "</li></a>"
+    end
+  end
+   usernames.join
+end
+
+def insert_fish(fishname, wiki)
+  @database_connection.sql("INSERT INTO fish (fishname, wiki_link, user_id) VALUES ('#{fishname}', '#{wiki}', '#{session[:user_id]}')")
+end
+
+def fish_list(id)
+  fish_data = @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish;")
+  list = fish_data.map do |fish_hash|
+    if id == fish_hash["user_id"].to_i
+    "<li><a href='#{fish_hash["wiki_link"]}'>#{fish_hash["fishname"]}</a></li>"
+    end
+  end
+
+  list.join
+end
+
+def users_fish_list(name)
+  user = @database_connection.sql("SELECT id FROM users WHERE username = '#{name}';")
+  fish_data = @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish;")
+  user_hash = user.pop
+  list = fish_data.map do |fish_hash|
+    if user_hash["id"] == fish_hash["user_id"]
+      "<li><a href='#{fish_hash["wiki_link"]}'>#{fish_hash["fishname"]}</a></li>"
+    end
+  end
+  list.join
 end

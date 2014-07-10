@@ -5,6 +5,12 @@ class CreateUsers < ActiveRecord::Migration
       t.string :password
     end
 
+    create_table :fish do |t|
+      t.string :fishname
+      t.string :wiki_link
+      t.integer :user_id
+    end
+
     add_index :users, :username, unique: true
   end
 

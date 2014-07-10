@@ -15,7 +15,7 @@ class App < Sinatra::Application
 
   get "/" do
     if session[:user_id]
-      erb :homepage2, locals: {:name => finds_name(session[:user_id]), :list_of_users => list_of_users}
+      erb :homepage2, locals: {:name => finds_name(session[:user_id]), :list_of_users => list_of_users, :list_of_fishes => fish_list(session[:user_id])}
     else
       erb :homepage
     end
@@ -40,9 +40,25 @@ class App < Sinatra::Application
     user_registration(username, password)
   end
 
+  get "/fish_factory" do
+    erb :fish
+  end
+
+  post "/fish_factory" do
+    fish = params[:fishname]
+    wiki = params[:wiki]
+    insert_fish(fish, wiki)
+    redirect '/'
+  end
+
   get "/logout" do
     session.delete(:user_id)
     redirect '/'
+  end
+
+  get "/user/:username" do
+    user = params[:username]
+    erb :user_page, locals: { :user => user, :fish_list => users_fish_list(user) }
   end
 
 end
