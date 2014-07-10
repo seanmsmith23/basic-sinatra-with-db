@@ -15,7 +15,7 @@ class App < Sinatra::Application
 
   get "/" do
     if session[:user_id]
-      erb :homepage2, locals: {:name => finds_name(session[:user_id]), :id => session[:user_id] }
+      erb :homepage2, locals: {:name => finds_name(session[:user_id]), :list_of_users => list_of_users}
     else
       erb :homepage
     end

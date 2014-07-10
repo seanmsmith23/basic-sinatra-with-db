@@ -39,9 +39,15 @@ def user_registration(username, password)
     begin
       @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{username}', '#{password}')")
       flash[:notice] = "Thank you for registering"
+      redirect '/'
     rescue
       flash[:error] = "This user already exists"
       redirect '/'
     end
   end
+end
+
+def list_of_users
+   users =  @database_connection.sql("SELECT username FROM users")
+  users.map { |u| '<li>' + u["username"] + '</li>' }.join
 end

@@ -39,6 +39,17 @@ feature "Homepage" do
     expect(page).to have_button("Register")
   end
 
+  scenario "can login and see the other users" do
+    register_user("Frankie")
+    register_user("Maude")
+    sign_in_user("Maude")
+
+    expect(page).to have_content("Welcome Maude")
+    expect(page).to have_content("Frankie")
+
+  end
+
+
 end
 
 feature "Registering" do
