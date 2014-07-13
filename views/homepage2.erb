@@ -14,7 +14,8 @@
 <ul id="user_list">
   <% users_data.map do |hash| %>
     <% if session[:user_id] != hash["id"].to_i %>
-      <li><a href="/user/<%= hash["username"] %>"><%= hash["username"] %></a></li>
+      <li><a href="/user/<%= hash["username"] %>"><%= hash["username"] %></a></li><br>
+        <form action='/delete_user' method='post'><button name='delete_user' type='submit' value='<%= hash["username"] %>'>Delete <%= hash["username"] %></button></form>
     <% end %>
   <% end %>
 </ul>

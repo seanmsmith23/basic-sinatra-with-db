@@ -71,17 +71,27 @@ feature "Homepage" do
     register_user("Zorro")
     sign_in_user("Zorro")
 
-    choose("ASC")
+    choose("asc")
     click_button("Reorder")
 
     expect(page.body.index("Alfred")).to be < page.body.index("Bert")
     expect(page.body.index("Bert")).to be < page.body.index("Drexel")
 
-    choose("DESC")
+    choose("desc")
     click_button("Reorder")
 
     expect(page.body.index("Alfred")).to be > page.body.index("Bert")
     expect(page.body.index("Bert")).to be > page.body.index("Drexel")
+  end
+
+  scenario "as a loggedin user I can delete other users" do
+    register_user("Bert")
+    register_user("Alfred")
+    sign_in_user("Alfred")
+
+    click_button("Delete Bert")
+
+    expect(page).to_not have_content("Bert")
   end
 
 end

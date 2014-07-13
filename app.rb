@@ -15,10 +15,8 @@ class App < Sinatra::Application
 
   get "/" do
     asc = params[:asc]
-    p "ASC #{asc.inspect}"
     desc = params[:desc]
-    p "DESC #{desc.inspect}"
-    p "ORDER CHECK #{check_for_order(asc, desc).inspect}"
+
     if session[:user_id]
       erb :homepage2, locals: {:name => finds_name(session[:user_id]),
                                :users_data => username_id_hashes(check_for_order(asc, desc)),
@@ -34,6 +32,12 @@ class App < Sinatra::Application
     password = params[:password]
 
     login_user_create_session(username, password)
+  end
+
+  post "/delete_user" do
+    user_to_delete = params[:delete_user]
+    delete_user_from_db(user_to_delete)
+    redirect "/"
   end
 
   get "/registration" do
