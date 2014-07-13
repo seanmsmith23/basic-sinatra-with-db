@@ -15,7 +15,7 @@ class App < Sinatra::Application
 
   get "/" do
     if session[:user_id]
-      erb :homepage2, locals: {:name => finds_name(session[:user_id]), :users_data => username_id_hashes, :list_of_fishes => fish_list(session[:user_id])}
+      erb :homepage2, locals: {:name => finds_name(session[:user_id]), :users_data => username_id_hashes, :users_fish_data => fish_list(session[:user_id])}
     else
       erb :homepage
     end
@@ -58,7 +58,7 @@ class App < Sinatra::Application
 
   get "/user/:username" do
     user = params[:username]
-    erb :user_page, locals: { :user => user, :fish_list => users_fish_list(user) }
+    erb :user_page, locals: { :user => user, :fish_data => users_fish_list(user) }
   end
 
 end

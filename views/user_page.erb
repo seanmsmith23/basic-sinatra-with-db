@@ -1,3 +1,8 @@
 <h1><%= user %>'s Fish</h1>
 
-<ul><%= fish_list %> </ul>
+<ul><% fish_data.each do |fish_hash| %>
+      <% if id == fish_hash["user_id"].to_i %>
+        <li><a href="<%= fish_hash["wiki_link"] %>"><%= fish_hash["fishname"] %></a></li>
+      <% end %>
+    <% end %>
+</ul>
