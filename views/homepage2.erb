@@ -2,13 +2,24 @@
 
 <a href="/logout"><button>Logout</button></a>
 
-<ul>
+<h3>Other Users</h3>
+
+<p>Order:</p>
+<form>
+  <input type="radio" name="asc" value="ASC">A to Z<br>
+  <input type="radio" name="desc" value="DESC">Z to A<br>
+  <button>Reorder</button>
+</form>
+
+<ul id="user_list">
   <% users_data.map do |hash| %>
     <% if session[:user_id] != hash["id"].to_i %>
-      <a href="/user/<%= hash["username"] %>"><li><%= hash["username"] %></li></a>
+      <li><a href="/user/<%= hash["username"] %>"><%= hash["username"] %></a></li>
     <% end %>
   <% end %>
 </ul>
+
+<h3>Your Fish</h3>
 
 <ul><% users_fish_data.each do |fish_hash| %>
       <li><a href="<%= fish_hash["wiki_link"] %>"><%= fish_hash["fishname"] %></a></li>

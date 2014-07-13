@@ -14,8 +14,15 @@ class App < Sinatra::Application
   end
 
   get "/" do
+    asc = params[:asc]
+    p "ASC #{asc.inspect}"
+    desc = params[:desc]
+    p "DESC #{desc.inspect}"
+    p "ORDER CHECK #{check_for_order(asc, desc).inspect}"
     if session[:user_id]
-      erb :homepage2, locals: {:name => finds_name(session[:user_id]), :users_data => username_id_hashes, :users_fish_data => fish_list(session[:user_id])}
+      erb :homepage2, locals: {:name => finds_name(session[:user_id]),
+                               :users_data => username_id_hashes(check_for_order(asc, desc)),
+                               :users_fish_data => user_fish_data(session[:user_id])}
     else
       erb :homepage
     end

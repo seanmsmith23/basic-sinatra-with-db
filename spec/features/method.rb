@@ -30,6 +30,5 @@ def create_fish(fishname)
   fill_in "wiki", :with => "http://en.wikipedia.org/wiki/Mackerel"
 
   click_button "Submit"
-
 end
 

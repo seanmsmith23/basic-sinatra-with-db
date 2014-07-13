@@ -18,6 +18,7 @@ feature "Homepage" do
 
   scenario "user can sign in and have a greeting presented to them" do
     register_user("Frankie")
+
     sign_in_user("Frankie")
 
     expect(page).to have_content("Welcome Frankie")
@@ -42,6 +43,7 @@ feature "Homepage" do
   scenario "can login and see the other users" do
     register_user("Frankie")
     register_user("Maude")
+
     sign_in_user("Maude")
 
     expect(page).to have_content("Welcome Maude")
@@ -55,16 +57,32 @@ feature "Homepage" do
     sign_in_user("Frankie")
     create_fish("Mackerel")
     logout_user
-
     sign_in_user("Maude")
 
     click_link "Frankie"
 
     expect(page).to have_content("Mackerel")
-    
   end
 
+  scenario "user can choose a button to order users in asc or desc order" do
+    register_user("Bert")
+    register_user("Alfred")
+    register_user("Drexel")
+    register_user("Zorro")
+    sign_in_user("Zorro")
 
+    choose("ASC")
+    click_button("Reorder")
+
+    expect(page.body.index("Alfred")).to be < page.body.index("Bert")
+    expect(page.body.index("Bert")).to be < page.body.index("Drexel")
+
+    choose("DESC")
+    click_button("Reorder")
+
+    expect(page.body.index("Alfred")).to be > page.body.index("Bert")
+    expect(page.body.index("Bert")).to be > page.body.index("Drexel")
+  end
 
 end
 
