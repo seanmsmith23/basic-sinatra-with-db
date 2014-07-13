@@ -16,5 +16,6 @@ class CreateUsers < ActiveRecord::Migration
 
   def down
     drop_table :users
+    drop_table :fish
   end
 end

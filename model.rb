@@ -47,14 +47,13 @@ def user_registration(username, password)
   end
 end
 
-def list_of_users
-  users =  @database_connection.sql("SELECT username, id FROM users")
-  usernames =  users.map do |u|
-    if session[:user_id] != u["id"].to_i
-      "<a href='/user/#{u["username"]}'><li>" + u["username"] + "</li></a>"
-    end
-  end
-   usernames.join
+def username_id_hashes
+  users_data =  @database_connection.sql("SELECT username, id FROM users")
+  # usernames =  users.map do |u|
+  #   if session[:user_id] != u["id"].to_i
+  #     "<a href='/user/#{u["username"]}'><li>" + u["username"] + "</li></a>"
+  #   end
+  # end
 end
 
 def insert_fish(fishname, wiki)

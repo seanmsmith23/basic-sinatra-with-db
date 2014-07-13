@@ -3,9 +3,23 @@
 <a href="/logout"><button>Logout</button></a>
 
 <ul>
-  <%= list_of_users %>
+  <% users_data.map do |hash| %>
+    <% if session[:user_id] != hash["id"].to_i %>
+      <a href="/user/<%= hash["username"] %>"><li><%= hash["username"] %></li></a>
+    <% end %>
+  <% end %>
 </ul>
 
 <ul>
   <%= list_of_fishes %>
 </ul>
+
+<!--def list_of_users-->
+<!--users =  @database_connection.sql("SELECT username, id FROM users")-->
+<!--usernames =  users.map do |u|-->
+<!--if session[:user_id] != u["id"].to_i-->
+<!--"<a href='/user/#{u["username"]}'><li>" + u["username"] + "</li></a>"-->
+<!--end-->
+<!--end-->
+<!--usernames.join-->
+<!--end-->
