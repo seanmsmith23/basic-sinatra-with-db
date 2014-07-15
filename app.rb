@@ -36,6 +36,7 @@ class App < Sinatra::Application
 
   post "/delete_user" do
     user_to_delete = params[:delete_user]
+    p "USER TO DELETE #{user_to_delete}"
     delete_user_from_db(user_to_delete)
     redirect "/"
   end
@@ -52,7 +53,7 @@ class App < Sinatra::Application
   end
 
   get "/fish_factory" do
-    erb :fish
+    erb :new_fish
   end
 
   post "/fish_factory" do
@@ -69,7 +70,18 @@ class App < Sinatra::Application
 
   get "/user/:username" do
     user = params[:username]
-    erb :user_page, locals: { :user => user, :fish_data => users_fish_list(user) }
+    erb :user_page, locals: { :user => user,
+                              :fish_data => users_fish_list(user),
+                              :user_favorites => current_user_favorites}
+  end
+
+  post "/fish/favorited" do
+    owner_id = params[:fish_owner]
+    fishname = params[:fish]
+
+    add_favorite(fishname, owner_id)
+
+    redirect back
   end
 
 end

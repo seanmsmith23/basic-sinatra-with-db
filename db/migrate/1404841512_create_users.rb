@@ -11,6 +11,12 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :user_id
     end
 
+    create_table :favorites do |t|
+      t.string :fishname
+      t.integer :user_id
+      t.integer :creator_id
+    end
+
     add_index :users, :username, unique: true
   end
 

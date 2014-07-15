@@ -2,5 +2,19 @@
 
 <ul><% fish_data.each do |fish_hash| %>
       <li><a href="<%= fish_hash["wiki_link"] %>"><%= fish_hash["fishname"] %></a></li>
+
+      <% user_favorites.each do |users_fav| %>
+        <% if users_fav["fishname"] == fish_hash["fishname"] && users_fav["creator_id"] == fish_hash["user_id"] %>
+          <button>Unfavorite</button>
+          <% break %>
+        <% elsif user_favorites.last == users_fav %>
+          <form action="/fish/favorited" method="post">
+            <input type="hidden" value="<%= fish_hash["fishname"] %>" name="fish">
+            <input type="hidden" value="<%= fish_hash["user_id"].to_i %>" name="fish_owner">
+            <button>Favorite</button>
+          </form>
+        <% end %>
+      <% end %>
+
     <% end %>
 </ul>

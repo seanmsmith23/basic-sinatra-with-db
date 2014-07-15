@@ -86,11 +86,19 @@ end
 ## USERS FISH PAGE
 
 def users_fish_list(name)
-  user = @database_connection.sql("SELECT id FROM users WHERE username = '#{name}';")
-  fish_data = @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish;")
+  user = @database_connection.sql("SELECT id FROM users WHERE username = '#{name}'")
+  fish_data = @database_connection.sql("SELECT fishname, wiki_link, user_id FROM fish")
   user_hash = user.pop
 
   fish_data.select do |fish_hash|
     user_hash["id"] == fish_hash["user_id"]
   end
+end
+
+def current_user_favorites
+  @database_connection.sql("SELECT * FROM favorites WHERE user_id = #{session[:user_id]}")
+end
+
+def add_favorite(fishname, creator_id)
+  @database_connection.sql("INSERT INTO favorites (fishname, user_id, creator_id) VALUES ('#{fishname}', #{session[:user_id]}, #{creator_id})")
 end
