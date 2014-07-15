@@ -84,4 +84,13 @@ class App < Sinatra::Application
     redirect back
   end
 
+  post "/fish/rm_favorite" do
+    owner_id = params[:fish_owner]
+    fishname = params[:fish]
+
+    remove_favorite(fishname, owner_id)
+
+    redirect back
+  end
+
 end

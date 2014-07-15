@@ -102,3 +102,7 @@ end
 def add_favorite(fishname, creator_id)
   @database_connection.sql("INSERT INTO favorites (fishname, user_id, creator_id) VALUES ('#{fishname}', #{session[:user_id]}, #{creator_id})")
 end
+
+def remove_favorite(fishname, creator_id)
+  @database_connection.sql("DELETE FROM favorites WHERE fishname = '#{fishname}' AND user_id = #{session[:user_id]} AND creator_id = #{creator_id}")
+end

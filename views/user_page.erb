@@ -5,7 +5,11 @@
 
       <% user_favorites.each do |users_fav| %>
         <% if users_fav["fishname"] == fish_hash["fishname"] && users_fav["creator_id"] == fish_hash["user_id"] %>
-          <button>Unfavorite</button>
+          <form action="/fish/rm_favorite" method="post">
+            <input type="hidden" value="<%= fish_hash["fishname"] %>" name="fish">
+            <input type="hidden" value="<%= fish_hash["user_id"].to_i %>" name="fish_owner">
+            <button>Unfavorite</button>
+          </form>
           <% break %>
         <% elsif user_favorites.last == users_fav %>
           <form action="/fish/favorited" method="post">
@@ -14,6 +18,14 @@
             <button>Favorite</button>
           </form>
         <% end %>
+      <% end %>
+    
+      <% if user_favorites == [] %>
+      <form action="/fish/favorited" method="post">
+        <input type="hidden" value="<%= fish_hash["fishname"] %>" name="fish">
+        <input type="hidden" value="<%= fish_hash["user_id"].to_i %>" name="fish_owner">
+        <button>Favorite</button>
+      </form>
       <% end %>
 
     <% end %>
