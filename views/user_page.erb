@@ -19,13 +19,13 @@
           </form>
         <% end %>
       <% end %>
-    
+
       <% if user_favorites == [] %>
-      <form action="/fish/favorited" method="post">
-        <input type="hidden" value="<%= fish_hash["fishname"] %>" name="fish">
-        <input type="hidden" value="<%= fish_hash["user_id"].to_i %>" name="fish_owner">
-        <button>Favorite</button>
-      </form>
+        <form action="/fish/favorited" method="post">
+          <input type="hidden" value="<%= fish_hash["fishname"] %>" name="fish">
+          <input type="hidden" value="<%= fish_hash["user_id"].to_i %>" name="fish_owner">
+          <button>Favorite</button>
+        </form>
       <% end %>
 
     <% end %>
